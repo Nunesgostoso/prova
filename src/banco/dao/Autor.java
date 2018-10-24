@@ -8,20 +8,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import banco.modelo.Cliente;
-import banco.modelo.Conta;
+import banco.modelo.Livro;
+import banco.modelo.Autor;
 
-public class ContaDao implements Dao<Conta> {
+public class Autor implements Dao<Autor> {
 	
-	private static final String GET_BY_ID = "SELECT * FROM conta NATURAL JOIN cliente WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM conta NATURAL JOIN cliente";
-	private static final String INSERT = "INSERT INTO conta (agencia, cliente_id, numero, saldo) "
+	private static final String GET_BY_ID = "SELECT * FROM autor NATURAL JOIN Autor WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM autor NATURAL JOIN autor";
+	private static final String INSERT = "INSERT INTO autor (id, nome, cpf, ) "   // banco de dados 
 			+ "VALUES (?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE conta SET agencia = ?, cliente_id = ?, numero = ?, "
+	private static final String UPDATE = "UPDATE conta SET agencia = ?, nome = ?, numero = ?, "
 			+ "saldo = ? WHERE id = ?";
 	private static final String DELETE = "DELETE FROM conta WHERE id = ?";
 	
-	public ContaDao() {
+	public Autor() {
 		try {
 			createTable();
 		} catch (SQLException e) {
@@ -33,41 +33,37 @@ public class ContaDao implements Dao<Conta> {
 	    final String sqlCreate = "CREATE TABLE IF NOT EXISTS conta"
 	            + "  (id           INTEGER,"
 	            + "   agencia      INTEGER,"
-	            + "   cliente_id   INTEGER,"
 	            + "   numero	   INTEGER,"
-	            + "   saldo        DOUBLE,"
-	            + "   FOREIGN KEY (cliente_id) REFERENCES cliente(id),"
+	            + "   FOREIGN KEY (Autor_id) REFERENCES Autor(id),"
 	            + "   PRIMARY KEY (id))";
 	    
-	    Connection conn = DbConnection.getConnection();
+	    Connection conn = DbConnection.getConnection(); // fecha conexao com o banco
 
 	    Statement stmt = conn.createStatement();
-	    stmt.execute(sqlCreate);
+	    stmt.execute(sqlCreate);    //permite executar comando sql
 	}
 	
 	
-	private Conta getContaFromRS(ResultSet rs) throws SQLException
+	private Autor getContaFromRS(ResultSet rs) throws SQLException  // algua coisa com o banco
     {
-		Conta conta = new Conta();
+		Autor conta = new Autor();
 			
 		conta.setId( rs.getInt("id") );
-		conta.setAgencia( rs.getInt("agencia") );
-		conta.setNumero( rs.getInt("numero"));
-		conta.setSaldo( rs.getDouble("saldo") );
-		conta.setCliente( new Cliente(rs.getInt("cliente_id"), rs.getString("nome"), 
-				rs.getString("endereco"), rs.getLong("cpf"),  rs.getLong("rg"),
-				rs.getLong("telefone"), rs.getDouble("renda_mensal")) );
+		conta.setNome( rs.getString("nome") );
+		conta.setCpf( rs.getInt("CPF"));
+		conta.setCliente( new Livro(rs.getInt("id"), rs.getString("nome"),  rs.getLong("CPF"),
+				 );
 	
 		return conta;
     }
 	
 	@Override
-	public Conta getByKey(int id) {
+	public Autor getByKey(int id) {
 		Connection conn = DbConnection.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		Conta conta = null;
+		Autor conta = null;
 		
 		try {
 			stmt = conn.prepareStatement(GET_BY_ID);
@@ -87,12 +83,12 @@ public class ContaDao implements Dao<Conta> {
 	}
 
 	@Override
-	public List<Conta> getAll() {
+	public List<Autor> getAll() {
 		Connection conn = DbConnection.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
 		
-		List<Conta> conta = new ArrayList<>();
+		List<Autor> conta = new ArrayList<>();
 		
 		try {
 			stmt = conn.createStatement();
@@ -113,7 +109,7 @@ public class ContaDao implements Dao<Conta> {
 	}
 
 	@Override
-	public void insert(Conta conta) {
+	public void insert(Autor conta) {
 		Connection conn = DbConnection.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -159,7 +155,7 @@ public class ContaDao implements Dao<Conta> {
 	}
 
 	@Override
-	public void update(Conta conta) {
+	public void update(Autor conta) {
 		Connection conn = DbConnection.getConnection();
 		
 		PreparedStatement stmt = null;

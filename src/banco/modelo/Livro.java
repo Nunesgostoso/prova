@@ -1,14 +1,13 @@
 package banco.modelo;
 
 
-public class Cliente extends Pessoa implements Imprimivel {
+public class Livro extends Livro implements Imprimivel {
 	private double rendaMensal;
 
-	public Cliente() { super(); }
+	public Livro() { super(); }
 	
-	public Cliente(int id, String nome, String endereco, long cpf, long rg,
-			long telefone, double rendaMensal) {
-		super(id, nome, endereco, cpf, rg, telefone);
+	public Livro(integer id, String titulo, integer anoPublicacao, String editora, String autor) {
+		super(id, titulo, anoPublicacao, editora, autor);
 
 		this.rendaMensal = rendaMensal;
 	}
@@ -30,13 +29,13 @@ public class Cliente extends Pessoa implements Imprimivel {
 
 	@Override
 	public String imprimeEmLista() {
-		return String.format("%d\t%s\t%s\t%d\t%d\t%d%.2f", getId(), getNome(), getEndereco(), getCpf(), 
-				getRg(), getTelefone(),	getRendaMensal());
+		return String.format("%d\t%s\t%s\t%d\t%d\t%d%.2f", getId(), getTitulo(), getAnoPublicacao(), getEditora(), 
+				getAutor());
 	}
 
 	@Override
 	public String[] getColunas() {
-		String[] colunas = {"id", "Nome", "Endereço", "CPF", "RG", "Telefone", "Renda Mensal"};
+		String[] colunas = {"id", "Titulo", "AnoPublicacao", "Editora", "Autor"};
 		return colunas;
 	}
 	

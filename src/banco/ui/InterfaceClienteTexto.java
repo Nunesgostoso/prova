@@ -2,19 +2,19 @@ package banco.ui;
 
 import java.util.List;
 
-import banco.dao.ClienteDao;
-import banco.modelo.Cliente;
+import banco.dao.Livro;
+import banco.modelo.Livro;
 
 public class InterfaceClienteTexto extends InterfaceModeloTexto {
 	
-	private ClienteDao dao;
+	private Livro dao;
 	
 	public InterfaceClienteTexto() {
 		super();
-		dao = new ClienteDao();
+		dao = new Livro();
 	}
 	
-	private Cliente obtemDadosCliente(Cliente cliente) {
+	private Livro obtemDadosCliente(Livro cliente) {
 		
 		System.out.print("Insira o nome do cliente: ");
 		String nome = entrada.nextLine();
@@ -38,7 +38,7 @@ public class InterfaceClienteTexto extends InterfaceModeloTexto {
 		double renda = entrada.nextDouble();
 		entrada.nextLine();
 		
-		Cliente novoCliente = new Cliente(0, nome, endereco, cpf, rg, telefone, renda);
+		Livro novoCliente = new Livro(0, nome, endereco, cpf, rg, telefone, renda);
 		
 		return novoCliente;
 	}
@@ -48,21 +48,21 @@ public class InterfaceClienteTexto extends InterfaceModeloTexto {
 		System.out.println("Adicionar cliente");
 		System.out.println();
 		
-		Cliente novoCliente = obtemDadosCliente(null);	
+		Livro novoCliente = obtemDadosCliente(null);	
 		dao.insert(novoCliente);
 		
 	}
 
 	@Override
 	public void listarTodos() {
-		List<Cliente> clientes = dao.getAll();
+		List<Livro> clientes = dao.getAll();
 		
 		System.out.println("Lista de clientes");
 		System.out.println();
 		
 		System.out.println("id\tNome\tEndereco\tCPF\tRG\tTelefone\tRenda Mensal");
 		
-		for (Cliente cliente : clientes) {
+		for (Livro cliente : clientes) {
 			imprimeItem(cliente);
 		}
 		
@@ -79,9 +79,9 @@ public class InterfaceClienteTexto extends InterfaceModeloTexto {
 		int id = entrada.nextInt();
 		entrada.nextLine();
 		
-		Cliente clienteAModifcar = dao.getByKey(id);
+		Livro clienteAModifcar = dao.getByKey(id);
 		
-		Cliente novoCliente = obtemDadosCliente(clienteAModifcar);
+		Livro novoCliente = obtemDadosCliente(clienteAModifcar);
 		
 		novoCliente.setId(id);
 		
